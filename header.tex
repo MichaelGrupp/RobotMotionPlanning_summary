@@ -1,0 +1,91 @@
+% Template created by Karol Kozioł (www.karol-koziol.net) for ShareLaTeX
+
+\documentclass[a4paper,9pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage[export]{adjustbox}
+
+\usepackage{amsmath,amssymb,textcomp}
+\everymath{\displaystyle}
+
+\usepackage{times}
+\renewcommand\familydefault{\sfdefault}
+\usepackage{tgheros}
+\usepackage[defaultmono,scale=0.85]{droidmono}
+
+\usepackage{multicol}
+\setlength{\columnseprule}{0pt}
+\setlength{\columnsep}{20.0pt}
+
+
+\usepackage{geometry}
+\geometry{
+a4paper,
+total={210mm,297mm},
+left=10mm,right=10mm,top=10mm,bottom=15mm}
+
+\linespread{1.3}
+
+
+% custom title
+\makeatletter
+\renewcommand*{\maketitle}{%
+\noindent
+\begin{minipage}{0.462\textwidth}
+\begin{tikzpicture}
+\node[rectangle,rounded corners=6pt,inner sep=10pt,fill=blue!0!white,text width= 0.95\textwidth] {\color{black}\Huge \textsf{\@title}};
+\end{tikzpicture}
+\end{minipage}
+\hfill
+\begin{minipage}{0.25\textwidth}
+\begin{center}
+\includegraphics[width=0.25\columnwidth]{IN_black.png}
+\label{fig:HSRT}
+\end{center}
+\end{minipage}
+\begin{minipage}{0.25\textwidth}
+\begin{center}
+\includegraphics[width=0.4\columnwidth]{TUM_blue.png}
+\label{fig:TEC}
+\end{center}
+\end{minipage}
+\bigskip %\bigskip
+}%
+\makeatother
+
+% custom section
+\usepackage[explicit]{titlesec}
+\newcommand*\sectionlabel{}
+\titleformat{\section}[runin]
+  {\gdef\sectionlabel{}
+   \normalfont\sffamily\Large\bfseries\scshape}
+  {\gdef\sectionlabel{\thesection\ }}{0pt}
+  {
+\noindent
+\begin{tikzpicture}
+\node[rectangle,rounded corners=3pt,inner sep=4pt,fill=white!50!black,text width= 1.0\columnwidth] {\color{white}\sectionlabel#1};
+\end{tikzpicture}
+  }
+\titlespacing\section{0pt}{15pt}{10pt}
+
+
+% custom footer
+\usepackage{fancyhdr}
+\makeatletter
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot[C]{\footnotesize \textcopyright\ \@date\ \ \@author}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% -------Für ToDo-Notes---------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[color=red, shadow]{todonotes} % ", disable" deaktiviert ToDo-Notes
+%Vereinfachtes "Inline-Todo"
+\newcommand{\td}[1]{{\todo[inline]{#1}}}
+\newcommand{\tdu}[1]{{\todo[inline, color=green!40]{#1}}}

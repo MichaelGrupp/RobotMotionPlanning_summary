@@ -1,0 +1,5 @@
+*.aux
+*.tcp
+*.log
+*.tps
+*.synctex
