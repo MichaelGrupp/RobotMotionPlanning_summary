@@ -71,13 +71,15 @@ left=10mm,right=10mm,top=10mm,bottom=15mm}
   }
 \titlespacing\section{0pt}{15pt}{10pt}
 
+%creative commons license logos
+\usepackage{ccicons}
 
 % custom footer
 \usepackage{fancyhdr}
 \makeatletter
 \pagestyle{fancy}
 \fancyhead{}
-\fancyfoot[C]{\footnotesize \textcopyright\ \@date\ \ \@author}
+\fancyfoot[C]{\footnotesize \ccbysa\ ~ \@date\ ~ \@author}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 \makeatother
@@ -89,3 +91,5 @@ left=10mm,right=10mm,top=10mm,bottom=15mm}
 %Vereinfachtes "Inline-Todo"
 \newcommand{\td}[1]{{\todo[inline]{#1}}}
 \newcommand{\tdu}[1]{{\todo[inline, color=green!40]{#1}}}
+
+\usepackage{url}
