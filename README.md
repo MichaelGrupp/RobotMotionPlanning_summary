@@ -1,5 +1,5 @@
 # RobotMotionPlanning_summary
-Summary for TUM lecture "Robot Motion Planning".
+Inofficial summary for TUM lecture "Robot Motion Planning".
 
 ## Changes
 ***Feel free to commit your changes!***
