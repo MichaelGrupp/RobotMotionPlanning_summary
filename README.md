@@ -1,5 +1,5 @@
 # RobotMotionPlanning_summary
-Inofficial summary for TUM lecture "Robot Motion Planning" written in LaTeX. [Download PDF] (https://github.com/MichaelGrupp/RobotMotionPlanning_summary/raw/master/robot_motion_planning_summary.pdf "PDF file of Robot Motion Planning Summary")
+Inofficial summary for TUM lecture "Robot Motion Planning" written in LaTeX. [Download PDF](https://github.com/MichaelGrupp/RobotMotionPlanning_summary/raw/master/robot_motion_planning_summary.pdf) 
 
 ## Changes
 ***Feel free to commit your changes!***
