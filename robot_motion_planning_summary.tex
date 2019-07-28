@@ -232,10 +232,74 @@ After planning, the path can be optimized, too. For example, the number of "zick
 \td{noch nich fertig... \\ not yet written...}
 \subsection{Kalman Filter}
 
+\paragraph{predict/ time update}
+
+\begin{align}
+	&\text{mean} && \hat{x}_{k+1}^- = A \hat{x}_{k} + B u_k  \\
+	&\text{covariance } \sigma_3^2 = \sigma_2^2 + \sigma_2^2 && P_{k+1}^- = A P_k A^\top + Q 
+\end{align}
+
+\paragraph{correct/ measurement update}
+
+\begin{align}
+	&\text{Kalman Gain} && K_k = P_k^- H^\top (H P_k^- H^\top + R)^{-1} \\
+	&\text{mean} && \hat{x}_k = \hat{x}_k^- + K_k (z_k - H \hat{x}_k^-) \\
+	&\text{covariance } \sigma_3^2 = \frac{\sigma_2^2  \sigma_2^2}{\sigma_2^2 + \sigma_2^2}  && P_k = (I - K_k H) P_k^-
+\end{align}
+
+\paragraph{with}
+
+\begin{flalign*}
+	\hat{x} & \text{ - state estimate mean} & \\
+	\hat{x}^- & \text{ - predicted state estimate mean} & \\
+	A & \text{ - state propagation/ transfer function} & \\
+	u & \text{ - control input} & \\
+	B & \text{ - mapping from control space to state space} & \\
+	P & \text{ - state covariance} & \\
+	Q & \text{ - process noise/ uncertainty covariance} & \\
+	K & \text{ - Kalman Gain} & \\
+	R & \text{ - measurement noise covariance} & \\
+	z & \text{ - measurement} &
+\end{flalign*}
+
+\paragraph{Observability}
+
+\begin{align*}
+O = \begin{pmatrix} H \\ HA^1 \\ \vdots  \\ HA^{n-1} \end{pmatrix}
+\end{align*}
+
+The system is observable if $rank(O) = n$ ($O$ has $n$ linearly independent rows).
+
 \subsection{Extended Kalman Filter}
 The (first order) EKF allows to use non-linear system models for Kalman filtering. The EKF adapts techniques from calculus, namely multivariate Taylor Series expansions, to linearize a model about a working point. 
 
-Jacobian...
+\paragraph{predict/ time update}
+
+\begin{align}
+	&\text{mean} && \hat{x}_{k+1}^- = f(\hat{x}_k, u_k, 0)  \\
+	&\text{covariance } && P_{k+1}^- = A_{k+1} P_k A_{k+1}^\top + W_{k+1} Q W_{k+1}^\top 
+\end{align}
+
+\paragraph{correct/ measurement update}
+
+\begin{align}
+	&\text{Kalman Gain} && K_k = P_k^- H_k^\top (H_k P_k^- H_k^\top + V_k R V_k^\top)^{-1} \\
+	&\text{mean} && \hat{x}_k = \hat{x}_k^- + K_k (z_k - h(\hat{x}_k^-, 0)) \\
+	&\text{covariance }  && P_k = (I - K_k H_k) P_k^-
+\end{align}
+
+\paragraph{with}
+
+\begin{flalign*}
+	f(x, u, n) & \text{ - state transfer function} & \\
+	n & \text{ - process noise} & \\
+	A & \text{ - Jacobian of $f$ with respect to $x$} & \\
+	W & \text{ - Jacobian of $f$ with respect to $n$} & \\
+	h(x, v) & \text{ - mapping from state space to measurement space} & \\
+	v & \text{ - measurement noise} & \\
+	H & \text{ - Jacobian of $h$ with respect to $x$} & \\
+	V & \text{ - Jacobian of $h$ with respect to $v$} &
+\end{flalign*}
 
 \subsection{Unscented Kalman Filter}
 Instead of using first order approximations of the Taylor series (EKF), the unscented filter extends to the second (or higher) order approximations. EKF may cause significant error for highly nonlinear systems because of the propagation of uncertainty through the nonlinear system. However, higher order unscented EKFs tend to only provide performance benefits when the measurement noise is small.
