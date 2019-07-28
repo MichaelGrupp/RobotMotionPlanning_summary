@@ -202,11 +202,14 @@ with $\epsilon, \alpha, \beta \in \ (0,1]$, $V(\cdot)$ as the set of visible poi
 ~\\
 \textbf{Burschka-Style}:
 \begin{enumerate}
-	\item find point with worst lookout into free space $F$
-	\item this worst lookout area is $S$
-	\item find the worst case area that can be seen from $S$ into $F\textbackslash S$ - let's call it $S_\beta$ 
-	\item $\beta$ measures the relative volume of $S_\beta$ to the free space $F$
-	\item $\alpha$ measures the relative volume of the area in $S$ that can see $S_\beta$ to the area $S$
+	\item let $F$ be the free space (set of points); $\mu(G)$ the volume/ area of some set G; $reach(x)$ the space ($\subseteq F$) that can be seen from some point $x$; $reach(G)$ the space that can be seen from any point in a set $G$
+	\item find point $x \in F$ with smallest $\mu(reach(x))$
+	\item $S = reach(x)$
+	\item $\epsilon = \frac{\mu(S)}{\mu(F)}$
+	\item choose some set $Z \subseteq S$ that can reach a lot and has an easy to calculate area
+	\item $\alpha = \frac{\mu(Z)}{\mu(S)}$
+	\item $\beta = \frac{\mu(reach(Z) \setminus S)}{\mu(F \setminus S)}$ (not really according to the definition, but best way to do it in the exam)
+	\item the goal is to keep $\alpha$ and $\beta$ balanced
 \end{enumerate}
 
 Using these values, the number n of samples that is needed for a good connectivity can be calculated:
