@@ -14,3 +14,11 @@ The best way is to...
 
 Thanks,
 *Michael*
+
+## Build
+
+With docker installed and user part of docker group simple run:
+
+```sh
+$ ./latexdockercmd.sh pdflatex robot_motion_planning_summary.tex
+```
