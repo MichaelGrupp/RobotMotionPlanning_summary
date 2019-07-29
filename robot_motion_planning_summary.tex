@@ -124,7 +124,7 @@ Free space is decomposed into trapezoids and triangles. Then, the adjacency grap
 Points on the obstacles, from which a separating line can be drawn in the upper and lower direction are called critical points. Then, an exhaustive walk through the critical points is performed in order to obtain a connectivity graph.
 \includegraphics[width=\columnwidth]{boustro}
 
-\subsubsection{Potential Field Method}
+\subsection{Potential Field Method}
 The C-space is turned into a potential field, where the obstacles are surrounded by a repulsive field and the goal location by an attractive field. To navigate, the robot applies a force proportional to the negative gradient of the field - this is called gradient descent. 
 
 The advantage of potential field methods is that they are easy to compute. On the other hand, they can suffer from local minima (where robot gets stuck), and they don't consider dynamic constraints in their initial form (forces can be too high).
