@@ -135,7 +135,10 @@ The advantage of potential field methods is that they are easy to compute. On th
 \section{Roadmapping with Random Sampling}
 Instead of looking at the whole space, sampling based methods are usually more efficient because they only require point-wise evaluations. They are probabilistically complete, meaning the probability that they will produce a solution approaches 1 as more time is spent. However, they are not as robust as methods with full knowledge of the space and cannot determine if there is no solution to the path planning problem.
 
-\subsection{PRM - Probabilistic Roadmaps}
+\subsection{Mulit-Query}
+A multiple query approach tries to capture the connectivity of the free space as good as possible, such that multiple, different queries for paths can be answered very fast. In other words: create a roadmap that is suitable for as many use cases as possible.
+
+\subsubsection{PRM - Probabilistic Roadmaps}
 Basic steps for constructing PRMs:
 \begin{enumerate}
 	\item sample vertices and keep vertices that do not lie on an obstacle
@@ -149,14 +152,12 @@ enough
 \includegraphics[width=\columnwidth]{PRM}
 \textbf{Drawbacks: } PRMs don't perform well when there are narrow passages.
 
-\subsection{OBPRM - Obstacle-Based PRM}
+\subsubsection{OBPRM - Obstacle-Based PRM}
 Obstacle-based PRMs are constructed by sampling only close to obstacles. During sampling, the first goal is to find a point that lies inside an obstacle. Then, another point is sampled at an arbitrary distance to the first point. Using step-wise approximation, a point sufficiently close to the obstacle border is searched.
 \includegraphics[width=\columnwidth]{OBPRM}
 
-\subsection{Single-/Multi-Query}
-A multiple query approach tries to capture the connectivity of the free space as good as possible, such that multiple, different queries for paths can be answered very fast. In other words: create a roadmap that is suitable for as many use cases as possible. 
-
-On the other side, single query planners try to solve a single query as fast as possible, without trying to cover the whole free space. \textit{Examples: Rapidly Exploring Random Trees, Potential Field methods...}
+\subsection{Single-Query}
+Single query planners try to solve a single query as fast as possible, without trying to cover the whole free space.
 
 \subsubsection{Weighted Randomized Tree Expansion}
 
