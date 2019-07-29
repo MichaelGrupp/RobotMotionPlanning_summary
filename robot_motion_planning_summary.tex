@@ -158,6 +158,31 @@ A multiple query approach tries to capture the connectivity of the free space as
 
 On the other side, single query planners try to solve a single query as fast as possible, without trying to cover the whole free space. \textit{Examples: Rapidly Exploring Random Trees, Potential Field methods...}
 
+\subsubsection{Weighted Randomized Tree Expansion}
+
+\begin{enumerate}
+	\item expand trees from start and goal
+	\item pick a node with probability $1/w(x)$, with $w(x)$ being the amount of neighbors within radius
+	\item sample k points around x
+	\item add y to the tree if
+	\begin{enumerate}
+		\item $1/w(y) > 1/w(x)$
+		\item y is collision
+		\item y can see x
+	\end{enumerate}
+	\item if pair of nodes from start tree and goal tree are close and can see each other, then connect the and terminate
+\end{enumerate}
+
+\begin{minipage}[t]{.5\columnwidth}
+	\raggedright
+	\includegraphics[width=\columnwidth]{weighted_expansion_2.png}
+\end{minipage}%
+\begin{minipage}[t]{.5\columnwidth}
+	\raggedleft
+	\includegraphics[width=\columnwidth]{weighted_expansion_1.png}
+\end{minipage}
+
+
 \subsubsection{RRT - Rapidly Exploring Random Trees}
 \begin{enumerate}
 	\item pick $q_{start}$ as the first node
