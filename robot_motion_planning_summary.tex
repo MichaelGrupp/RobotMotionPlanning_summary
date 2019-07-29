@@ -229,14 +229,14 @@ After planning, the path can be optimized, too. For example, the number of "zick
 
 \section{Probabilistic Robotics}
 
-\td{noch nich fertig... \\ not yet written...}
+\td{noch nicht fertig... \\ not yet written...}
 \subsection{Kalman Filter}
 
 \paragraph{predict/ time update}
 
 \begin{align}
 	&\text{mean} && \hat{x}_{k+1}^- = A \hat{x}_{k} + B u_k  \\
-	&\text{covariance } \sigma_3^2 = \sigma_2^2 + \sigma_2^2 && P_{k+1}^- = A P_k A^\top + Q 
+	&\text{covariance } \sigma_3^2 = \sigma_1^2 + \sigma_2^2 && P_{k+1}^- = A P_k A^\top + Q 
 \end{align}
 
 \paragraph{correct/ measurement update}
@@ -244,7 +244,7 @@ After planning, the path can be optimized, too. For example, the number of "zick
 \begin{align}
 	&\text{Kalman Gain} && K_k = P_k^- H^\top (H P_k^- H^\top + R)^{-1} \\
 	&\text{mean} && \hat{x}_k = \hat{x}_k^- + K_k (z_k - H \hat{x}_k^-) \\
-	&\text{covariance } \sigma_3^2 = \frac{\sigma_2^2  \sigma_2^2}{\sigma_2^2 + \sigma_2^2}  && P_k = (I - K_k H) P_k^-
+	&\text{covariance } \sigma_3^2 = \frac{\sigma_1^2  \sigma_2^2}{\sigma_1^2 + \sigma_2^2}  && P_k = (I - K_k H) P_k^-
 \end{align}
 
 \paragraph{with}
@@ -265,7 +265,7 @@ After planning, the path can be optimized, too. For example, the number of "zick
 \paragraph{Observability}
 
 \begin{align*}
-O = \begin{pmatrix} H \\ HA^1 \\ \vdots  \\ HA^{n-1} \end{pmatrix}
+O = \begin{bmatrix} H \\ HA^1 \\ \vdots  \\ HA^{n-1} \end{bmatrix}
 \end{align*}
 
 The system is observable if $rank(O) = n$ ($O$ has $n$ linearly independent rows).
@@ -304,7 +304,47 @@ The (first order) EKF allows to use non-linear system models for Kalman filterin
 \subsection{Unscented Kalman Filter}
 Instead of using first order approximations of the Taylor series (EKF), the unscented filter extends to the second (or higher) order approximations. EKF may cause significant error for highly nonlinear systems because of the propagation of uncertainty through the nonlinear system. However, higher order unscented EKFs tend to only provide performance benefits when the measurement noise is small.
 
-The idea is to produce several sampling points (Sigma points) around the current state estimate based on its covariance. Then, propagating these points through the nonlinear map to get more accurate estimation of the mean and covariance of the mapping results. In this way, it avoids the need to calculate the Jacobian, hence incurs only the similar computation load as the EKF.
+The idea is to produce several sampling points (Sigma Points) from the current state and noise distributions. Then, propagating these points through the nonlinear map to get more accurate estimation of the mean and covariance of the mapping results. In this way, it avoids the need to calculate the Jacobian, hence incurs only the similar computation load as the EKF.
+
+\td{Martin: The indices in the slides seemed mixed up. I hope I corrected them right. I also changed the notation so it is similar to KF and EKF.}
+
+\paragraph{init}
+
+\setlength{\belowdisplayskip}{0pt}
+\setlength{\abovedisplayskip}{0pt}
+
+\begin{align}
+&\text{mean vector} && \hat{x}_{k-1}^a = \begin{bmatrix}{x}_{k-1}^\top & 0 & 0 \end{bmatrix}^\top \\
+\intertext{\small contains mean values of state ($x$), process noise ($v$) and measurement noise ($n$)}
+&\text{covariance matrix }  && P_{k-1}^a = \begin{bmatrix}P_{k-1} & 0 & 0 \\ 0 & Q & 0 \\ 0 & 0 & R\end{bmatrix} 
+\intertext{\small contains covariances of state, process, and measurement}
+&\text{sigma points} && \chi_{k-1}^x = \begin{bmatrix}\hat{x}_{k-1}^x & \hat{x}_{k-1}^x \pm \sqrt{(n_x + \lambda) P_{k-1}^x } \end{bmatrix} \\
+\intertext{\small do the same for $v$ and $n$}
+&\text{first-order weights} && W_{0}^{(m)} = \frac{\lambda}{n_x + \lambda} \\
+&\text{second-order weights} && W_{0}^{(c)} = \frac{\lambda}{n_x + \lambda} + (1 - \alpha^2 + \beta) \\
+& && W_i^{(m)} = W_i^{(c)} = \frac{\lambda}{2(n_x + \lambda)} \\
+\intertext{\small weighting of sigma points ($x \in \mathbb{R}^{n_x}; i=1,...,2n_x;$)} \nonumber
+\end{align}
+
+\paragraph{predict/ time update}
+
+\begin{align}
+&\text{sigma points} && \chi_{k}^{x-} = f(\chi_{k-1}^x, \chi_{k-1}^v) \\
+&\text{mean state} && \hat{x}_{k}^- = \sum_{i=0}^{2n_x} W_i^{(m)} \chi_{i,k}^{x-} \\
+&\text{covariance} && P_k^- = \sum_{i=0}^{2n_x} W_i^{(c)} \begin{bmatrix}\chi_{i,k}^{x-} - \hat{x}_{k}^-\end{bmatrix}\begin{bmatrix}\chi_{i,k}^{x-} - \hat{x}_{k}^-\end{bmatrix}^\top
+\end{align}
+
+\paragraph{correct/ measurement update}
+
+\begin{align}
+&\text{pred. meas.} && Y_k^- = h(\chi_{k-1}^x, \chi_{k-1}^n) \\
+&\text{mean meas.} && \hat{y}_{k}^- = \sum_{i=0}^{2n_x} W_i^{(m)} Y_{i,k}^- \\
+&\text{meas. cov.} && P_{y_k y_k} = \sum_{i=0}^{2n_x} W_i^{(c)} \begin{bmatrix}Y_{i,k}^- - \hat{y}_{k}^-\end{bmatrix} \begin{bmatrix}Y_{i,k}^- - \hat{y}_{k}^-\end{bmatrix}^\top \\
+&\text{cross cov.} && P_{x_k y_k} = \sum_{i=0}^{2n_x} W_i^{(c)} \begin{bmatrix}\chi_{i,k}^{x-} - \hat{x}_{k}^-\end{bmatrix} \begin{bmatrix}Y_{i,k}^- - \hat{y}_{k}^-\end{bmatrix}^\top \\
+&\text{Kalman Gain} && K_k = P_{x_k y_k} P_{y_k y_k}^{-1} \\
+&\text{mean state} && \hat{x}_k = \hat{x}_k^- + K_k(y_k - \hat{y}_k^-) \\
+&\text{covariance} && P_k = P_k^- - K_k P_{y_k y_k} K_k^\top
+\end{align}
 
 \subsection{Bayes Filter}
 
