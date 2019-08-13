@@ -257,11 +257,13 @@ After planning, the path can be optimized, too. For example, the number of "zick
 
 \subsection{Kalman Filter}
 
+The basic idea of a Kalman filter is that you interpret your robots state as a normal (gaussian) distribution with mean and variance. Furthermore you model your sensors with white noise (gaussian, zero-mean).
+
 \paragraph{predict/ time update}
 
 \begin{align}
 	&\text{mean} && \hat{x}_{k+1}^- = A \hat{x}_{k} + B u_k  \\
-	&\text{covariance } \sigma_3^2 = \sigma_1^2 + \sigma_2^2 && P_{k+1}^- = A P_k A^\top + Q 
+	&\text{covariance } \textcolor{gray}{\sigma_3^2 = \sigma_1^2 + \sigma_2^2} && P_{k+1}^- = A P_k A^\top + Q 
 \end{align}
 
 \paragraph{correct/ measurement update}
@@ -269,7 +271,7 @@ After planning, the path can be optimized, too. For example, the number of "zick
 \begin{align}
 	&\text{Kalman Gain} && K_k = P_k^- H^\top (H P_k^- H^\top + R)^{-1} \\
 	&\text{mean} && \hat{x}_k = \hat{x}_k^- + K_k (z_k - H \hat{x}_k^-) \\
-	&\text{covariance } \sigma_3^2 = \frac{\sigma_1^2  \sigma_2^2}{\sigma_1^2 + \sigma_2^2}  && P_k = (I - K_k H) P_k^-
+	&\text{covariance } \textcolor{gray}{\sigma_3^2 = \frac{\sigma_1^2  \sigma_2^2}{\sigma_1^2 + \sigma_2^2}}  && P_k = (I - K_k H) P_k^-
 \end{align}
 
 \paragraph{with}
