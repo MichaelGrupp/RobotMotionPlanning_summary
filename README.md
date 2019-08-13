@@ -1,5 +1,13 @@
 # RobotMotionPlanning_summary
-Inofficial summary for TUM lecture "Robot Motion Planning" written in LaTeX. [Download PDF](https://github.com/MichaelGrupp/RobotMotionPlanning_summary/raw/master/robot_motion_planning_summary.pdf) 
+Inofficial summary for TUM lecture "Robot Motion Planning" written in LaTeX. [Download PDF](https://github.com/MichaelGrupp/RobotMotionPlanning_summary/raw/master/robot_motion_planning_summary.pdf)
+
+## Build
+
+Compile `robot_motion_planning_summary.tex` with your usual LaTeX build environment or use [blang's LaTeX Docker image](https://github.com/blang/latex-docker):
+
+```sh
+$ ./latexdockercmd.sh pdflatex robot_motion_planning_summary.tex
+```
 
 ## Changes
 ***Feel free to commit your changes!***
@@ -14,11 +22,3 @@ The best way is to...
 
 Thanks,
 *Michael*
-
-## Build
-
-With docker installed and user part of docker group simple run:
-
-```sh
-$ ./latexdockercmd.sh pdflatex robot_motion_planning_summary.tex
-```
