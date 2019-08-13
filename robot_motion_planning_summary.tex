@@ -163,15 +163,15 @@ Single query planners try to solve a single query as fast as possible, without t
 
 \begin{enumerate}
 	\item expand trees from start and goal
-	\item pick a node with probability $1/w(x)$, with $w(x)$ being the amount of neighbors within radius
-	\item sample k points around x
-	\item add y to the tree if
+	\item pick a node with probability $1/w(x)$, with $w(x)$ being the amount of neighbors within radius (~ measurement for exploration around $x$)
+	\item sample $k$ points ($y_1, ..., y_k$) around $x$
+	\item add $y_i$ to the tree if
 	\begin{enumerate}
-		\item $1/w(y) > 1/w(x)$
-		\item y is collision free
-		\item y can see x
+		\item $1/w(y_i) > 1/w(x)$
+		\item $y_i$ is collision free
+		\item $y_i$ can see $x$
 	\end{enumerate}
-	\item if pair of nodes from start tree and goal tree are close and can see each other, then connect them and terminate
+	\item if a pair of nodes from start tree and goal tree are close and can see each other, then connect them and terminate
 \end{enumerate}
 
 \begin{minipage}[t]{.5\columnwidth}
