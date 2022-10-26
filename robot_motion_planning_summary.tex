@@ -54,18 +54,18 @@ configuration space manifold because it is constrained in some way. For example,
 $\tau: s \in [0,1] \rightarrow \tau(s) \in C$ s.t. $\tau(0) = q$ and $\tau(1) = q'$\\
 \textbf{Trajectory:} A trajectory is a path parametrized by time:
 $\tau: t \in [0, T] \rightarrow \tau(t) \in C$.
-Possible constraints: Smoothness, minimum length, minimum time, ...
+Possible constraints: smoothness, minimum length, minimum time, ...
 
 \subsection{Calculate DoF}
-\textbf{Calculate DoF of a single body:}
+\textbf{Calculate DoF of a single body:}\\
 DoF = total DoF of 3 fixed points - number of constraints (of the 3 fixed points, e.g. distances between points). \\
 \textit{Alternative:} Find DoF of one point, go the next one and apply constraints, go to the third point and apply constraints. \par
 
 \textbf{Calculate DoF for general robots:}
 \begin{itemize}
-	\item Open chains: Add the DoF of each joint
+	\item Open chains: add the DoF of each joint.
 	\item Closed chains:\\
-	$DoF = N(k-1) - \sum_{i=1}^{n} (N-f_i) = N(k-n-1) + \sum_{i=1}^{n} f_i$ \\
+	$\text{DoF} = N(k-1) - \sum_{i=1}^{n} (N-f_i) = N(k-n-1) + \sum_{i=1}^{n} f_i$ \\
 	– $N=6$ for 3D, $N=3$ for 2D\\
 	– $k =$ number of links (including ground link)\\
 	– $n =$ number of joints\\
@@ -84,7 +84,7 @@ There exist different ways how to parametrize orientations:
 			r_{31} & r_{32} & r_{33}
 		\end{psmallmatrix}$
 		with $\det(R)=1$ and $R^T R=I$ (or $R R^T=I$) \\
-		Columns of $R$: Coordinate axes of new coordinate System
+		Columns of $R$: coordinate axes of new coordinate System
 	\item \textbf{Parametrization of orientations by Euler angles:}\\
 	Different sequences of rotation axes exist, e.g. "Roll, Pitch, Yaw" around $x$, $y$ and $z$:
 	\begin{align*}
@@ -106,11 +106,11 @@ There exist different ways how to parametrize orientations:
 			0 & s\alpha & c\alpha
 		\end{psmallmatrix}
 	\end{align*}
-	Problem: Singularities
+	Problem: singularities
 	\item \textbf{Parametrization of orientations by unit quaternions:}\\
-	$\mathbold{u} = (cos(\theta/2), n_x sin(\theta/2), n_y sin(\theta/2), n_z sin(\theta/2))$\\
+	$\mathbold{u} = (\cos(\theta/2), n_x \sin(\theta/2), n_y \sin(\theta/2), n_z sin(\theta/2))$\\
 	with $\lVert \mathbold{n} \rVert = 1$ ($\mathbold{n}$: rotation vector, $\theta$: rotation angle)\\
-	Advantages: Compact, no singularities, natural orientation representation
+	Advantages: compact, no singularities, natural orientation representation
 \end{itemize}
 
 \subsection{Configuration space}
@@ -131,7 +131,7 @@ $\Rightarrow$ Minkowski sum algorithm
 \subsection{Collision Detection}
 Create a hull (circle, rectangle, convex hull, …) around an object and
 perform a collision check. Circle: 1 distance calculation. Rectangle (axis aligned): 4 distance calculations.\\
-Circle approach: Start with one big circle, perform check: if collision, split circle into smaller circles and repeat until minimum radius is reached, else no collision.
+Circle approach: Start with one big circle, perform check. If collision, split circle into smaller circles and repeat until minimum radius is reached, else no collision.
 
 \begin{center}
 \includegraphics[width=\columnwidth]{collision_hull.png}
@@ -154,7 +154,7 @@ Bug algorithms are simple strategies that use local knowledge (e.g. from sensor 
 	\item When hit point set, follow the wall until you can move towards goal again (leave point).
 	\item Continue from 1.
 \end{enumerate}
-Fails for certain obstacle shapes! (e.g. spiral)
+Fails for certain obstacle shapes (e.g. spiral)!
 
 \begin{center}
 \includegraphics[width=0.4\columnwidth]{bug0.png}
@@ -228,9 +228,9 @@ The algorithm can also start from the goal towards the start.\\
 \section{Classical path planning}
 Using offline pre-processing and exact environment knowledge in order to do the path planning beforehand and save online performance, we distinguish:
 \begin{itemize}
-	\item Roadmaps
-	\item Cell decomposition
-	\item Potential field
+	\item roadmaps
+	\item cell decomposition
+	\item potential field
 \end{itemize}
 
 \subsection{Roadmaps (with exact knowledge)}
@@ -307,7 +307,7 @@ Furthermore, it can be shown that not all planning algorithms are complete.\\
 \subsubsection{Extension of vertical Cell Decomposition}
 Extension of vertical CD to $n$ dimensions:
 \begin{enumerate}
-	\item Pick a dimension $x_i$
+	\item Pick a dimension $x_i$.
 	\item Sweep the configuration space using a (n-1)-dimensional plane orthogonal to $x_i$. Stop when critical connectivity events happen. When such a change happens, a new (n-1)-dimensional slice is produced.
 	\item Repeat for the (n-1)-dimensional slices
 	\item Sweeping yields convex n-cells, (n-1)-cells, ... (with a n-cell being a n-dim. polytope sandwiched between (n-1)-dim. slices).
@@ -405,7 +405,7 @@ Sampling uniformly in 2D and 3D has to be correctly parametrized! Cases:
 
 \subsection{Multi-Query}
 A multiple query approach tries to capture the connectivity of the free space as good as possible with the goal to answer multiple, different queries for paths very fast.\\
-Assumption: Static obstacles.
+Assumption: static obstacles.
 
 \subsubsection{PRM - Probabilistic Roadmaps}
 \textbf{Basic steps for constructing PRMs:}
@@ -567,10 +567,10 @@ With $\epsilon, \alpha, \beta \in \ (0,1]$, $\text{reach}(\cdot)$ as the set of 
 
 \paragraph{Methods to improve connectivity:}
 \begin{itemize}
-	\item Increase number of samples $n$
-	\item Random walk
-	\item OBPRM
-	\item Repairing approximate paths
+	\item Increase number of nodes: Uniform sampling. The connectivity increases exponentially with the number of nodes.
+	\item Random walk: If collision, randomly change direction until max. path length reached. $\rightarrow$ Increases chance to get samples in narrow passage.
+	\item Path correction: Allow paths through obstacles and push them to the boundaries later. $\rightarrow$ Increases chance to get paths through narrow passage.
+	\item Obstacle-based sampling (e.g. OBPRM): Sample close to obstacles. $\rightarrow$ Increases chance to get samples in narrow passage.
 \end{itemize}
 
 \subsection{RRT - Rapidly Exploring Random Trees}
@@ -615,15 +615,13 @@ This is an asymptotically optimal sampling based algorithm, because as the numbe
 
 \section{Probabilistic Robotics}
 \subsection{Kalman Filter}
-The basic idea of a Kalman filter is that you interpret your robots state as a normal (gaussian) distribution with mean and variance.
+A Kalman filter is an optimal estimator, i.e. infers parameters of interest
+from indirect, inaccurate and uncertain observations.
+It is recursive so that new measurements can be processed as they arrive.
+If the noise is Gaussian the Kalman filter is optimal, i.e. it minimizes the mean square error of the estimated parameters.\\
+So in practice, you interpret your robots state as a normal (gaussian) distribution with mean and variance.
 Besides the estimate for the state $x$ you also have some estimate for the uncertainty in your value for $x$ that is represented through a normal distribution and its variance / covariance matrix $P$.
 You also model your sensors with white noise (gaussian, zero-mean).\\
-
-\textit{\textbf{Explanantion from the internet:}}
-A Kalman filter is an optimal estimator i.e. infers parameters of interest
-from indirect, inaccurate and uncertain observations.
-It is recursive so that new measurements can be processed as they arrive .
-If the noise is Gaussian the Kalman filter is optimal, i.e. it minimizes the mean square error of the estimated parameters.\\
 
 \textit{\textbf{Requirements for optimality:}}
 \begin{itemize}
