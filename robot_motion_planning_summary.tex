@@ -73,7 +73,7 @@ DoF = total DoF of 3 fixed points - number of constraints (of the 3 fixed points
 \end{itemize}
 
 \subsection{Parametrizations of configurations}
-Configuration: $\mathbold{q}=(position, orientation)=(x,y,z,\cdot)$.
+Configuration: $\mathbold{q}=(\text{position}, \text{orientation})=(x,y,z,\cdot)$.
 There exist different ways how to parametrize orientations:
 \begin{itemize}
 	\item \textbf{Parametrization of orientations by rotation matrix:}\\
@@ -83,8 +83,10 @@ There exist different ways how to parametrize orientations:
 			r_{21} & r_{22} & r_{23}\\
 			r_{31} & r_{32} & r_{33}
 		\end{psmallmatrix}$
-		with $\det(R)=1$ and $R^T R=I$ (or $R R^T=I$) \\
-		Columns of $R$: coordinate axes of new coordinate System
+		with $\det(R)=1$ and $R^T R=I$ (or $R R^T=I$), $R \in SO(3)$ \\
+		Columns of $R$: coordinate axes of new coordinate system \\
+		Advantages: Rotation matrices can be embedded into a $SE(3)$ transformation matrix together with the position. Concatenation of transformations via matrix multiplication (for $SO(3)$ and $SE(3)$). \\
+		Drawback: over-parameterized
 	\item \textbf{Parametrization of orientations by Euler angles:}\\
 	Different sequences of rotation axes exist, e.g. "Roll, Pitch, Yaw" around $x$, $y$ and $z$:
 	\begin{align*}
@@ -106,11 +108,15 @@ There exist different ways how to parametrize orientations:
 			0 & s\alpha & c\alpha
 		\end{psmallmatrix}
 	\end{align*}
-	Problem: singularities
+	Problem: singularities (gimbal lock), easy to get wrong due to many possible sequence conventions, harder to concatenate
 	\item \textbf{Parametrization of orientations by unit quaternions:}\\
 	$\mathbold{u} = (\cos(\theta/2), n_x \sin(\theta/2), n_y \sin(\theta/2), n_z sin(\theta/2))$\\
-	with $\lVert \mathbold{n} \rVert = 1$ ($\mathbold{n}$: rotation vector, $\theta$: rotation angle)\\
-	Advantages: compact, no singularities, natural orientation representation
+	with $\lVert \mathbold{n} \rVert = 1$.\\
+	Implementation of axis-angle representation with rotation vector $\mathbold{n}$ and rotation angle $\theta$:
+	\begin{center}
+		\includegraphics[width=0.3\columnwidth]{images/axis-angle-representation.png}
+	\end{center}
+	Advantages: compact, no singularities, natural orientation representation, efficient computations (multiplication, inverse, etc)
 \end{itemize}
 
 \subsection{Configuration space}
